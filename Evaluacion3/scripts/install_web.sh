@@ -82,20 +82,25 @@ fi
 #=============================================================================
 echo "📦 [2/10] Instalando dependencias..."
 if [ "$OS" = "amzn" ] || [ "$OS" = "rhel" ] || [ "$OS" = "centos" ]; then
-    # Amazon Linux
-    yum install -y \
+    # Amazon Linux 2023 / RHEL
+    # Detectar gestor de paquetes
+    if command -v dnf &> /dev/null; then
+        PKG_MGR="dnf"
+    else
+        PKG_MGR="yum"
+    fi
+    
+    $PKG_MGR install -y \
         python3 \
         python3-pip \
         python3-devel \
         nginx \
         git \
-        postgresql \
+        postgresql15 \
         gcc \
         gcc-c++ \
-        make
-    
-    # Habilitar EPEL si es necesario
-    amazon-linux-extras install -y postgresql14 2>/dev/null || true
+        make \
+        libpq-devel
     
 elif [ "$OS" = "ubuntu" ] || [ "$OS" = "debian" ]; then
     # Ubuntu / Debian
