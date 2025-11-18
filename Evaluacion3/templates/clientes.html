@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }} - Logística Global{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1>{{ titulo }}</h1>
+        <p class="lead">Gestión de clientes</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="/api/clientes/" class="btn btn-primary">API Endpoint</a>
+            <a href="/admin/transporte/cliente/" class="btn btn-secondary">Admin</a>
+        </div>
+    </div>
+
+    {% if clientes %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>RUT</th>
+                    <th>Dirección</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.id }}</td>
+                    <td>{{ cliente.nombre }}</td>
+                    <td>{{ cliente.rut }}</td>
+                    <td>{{ cliente.direccion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <h4>No hay clientes registrados</h4>
+        <p>Puedes agregar clientes usando el <a href="/admin/transporte/cliente/add/">panel de administración</a> o la <a href="/api/clientes/">API REST</a>.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
